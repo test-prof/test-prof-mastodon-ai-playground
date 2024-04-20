@@ -208,6 +208,7 @@ group :development, :test do
   gem 'memory_profiler', require: false
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
+  gem 'vernier', require: false
   gem 'test-prof'
 
   # RSpec runner for rails
