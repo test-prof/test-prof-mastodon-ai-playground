@@ -1,7 +1,8 @@
 name: TestProf AI
 
 on:
-  workflow_dispatch:
+  issues:
+    types: [labeled]
 
 env:
   BUNDLE_CLEAN: true
@@ -9,6 +10,7 @@ env:
 
 jobs:
   build:
+    if: github.event.label.name == 'test-prof'
     runs-on: ubuntu-latest
 
     strategy:
@@ -129,5 +131,5 @@ jobs:
         uses: test-prof/test-prof-aiptimize-action@main
         with:
           api-key: ${{ secrets.CLAUDE_API_KEY }}
-          issue-number: 1
+          issue-number: ${{ github.event.issue.number }}
           base-branch: test-prof-aiptimize
