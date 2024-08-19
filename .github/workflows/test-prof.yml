@@ -132,4 +132,3 @@ jobs:
         with:
           api-key: ${{ secrets.CLAUDE_API_KEY }}
           issue-number: ${{ github.event.issue.number }}
-          base-branch: test-prof-aiptimize
