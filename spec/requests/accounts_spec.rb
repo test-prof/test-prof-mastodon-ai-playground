@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Accounts show response' do
-  let(:account) { Fabricate(:account) }
+  let_it_be(:account) { Fabricate(:account) }
 
   context 'with an unapproved account' do
     before { account.user.update(approved: false) }
@@ -46,14 +46,14 @@ describe 'Accounts show response' do
 
   describe 'GET to short username paths' do
     context 'with existing statuses' do
-      let!(:status) { Fabricate(:status, account: account) }
-      let!(:status_reply) { Fabricate(:status, account: account, thread: Fabricate(:status)) }
-      let!(:status_self_reply) { Fabricate(:status, account: account, thread: status) }
-      let!(:status_media) { Fabricate(:status, account: account) }
-      let!(:status_pinned) { Fabricate(:status, account: account) }
-      let!(:status_private) { Fabricate(:status, account: account, visibility: :private) }
-      let!(:status_direct) { Fabricate(:status, account: account, visibility: :direct) }
-      let!(:status_reblog) { Fabricate(:status, account: account, reblog: Fabricate(:status)) }
+      let_it_be(:status) { Fabricate(:status, account: account) }
+      let_it_be(:status_reply) { Fabricate(:status, account: account, thread: Fabricate(:status)) }
+      let_it_be(:status_self_reply) { Fabricate(:status, account: account, thread: status) }
+      let_it_be(:status_media) { Fabricate(:status, account: account) }
+      let_it_be(:status_pinned) { Fabricate(:status, account: account) }
+      let_it_be(:status_private) { Fabricate(:status, account: account, visibility: :private) }
+      let_it_be(:status_direct) { Fabricate(:status, account: account, visibility: :direct) }
+      let_it_be(:status_reblog) { Fabricate(:status, account: account, reblog: Fabricate(:status)) }
 
       before do
         status_media.media_attachments << Fabricate(:media_attachment, account: account, type: :image)
@@ -99,9 +99,8 @@ describe 'Accounts show response' do
         end
 
         context 'with tag' do
-          let(:tag) { Fabricate(:tag) }
-
-          let!(:status_tag) { Fabricate(:status, account: account) }
+          let_it_be(:tag) { Fabricate(:tag) }
+          let_it_be(:status_tag) { Fabricate(:status, account: account) }
 
           before do
             status_tag.tags << tag
@@ -149,7 +148,7 @@ describe 'Accounts show response' do
         end
 
         context 'when signed in' do
-          let(:user) { Fabricate(:user) }
+          let_it_be(:user) { Fabricate(:user) }
 
           before do
             sign_in(user)
@@ -170,7 +169,7 @@ describe 'Accounts show response' do
         end
 
         context 'with signature' do
-          let(:remote_account) { Fabricate(:account, domain: 'example.com') }
+          let_it_be(:remote_account) { Fabricate(:account, domain: 'example.com') }
 
           before do
             get short_account_path(username: account.username), headers: headers, sign_with: remote_account
@@ -268,9 +267,8 @@ describe 'Accounts show response' do
         end
 
         context 'with tag' do
-          let(:tag) { Fabricate(:tag) }
-
-          let!(:status_tag) { Fabricate(:status, account: account) }
+          let_it_be(:tag) { Fabricate(:tag) }
+          let_it_be(:status_tag) { Fabricate(:status, account: account) }
 
           before do
             status_tag.tags << tag
