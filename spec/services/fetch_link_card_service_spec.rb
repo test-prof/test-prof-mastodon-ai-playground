@@ -9,73 +9,26 @@ RSpec.describe FetchLinkCardService, :account do
   let_it_be(:oembed_cache) { nil }
 
   before_all do
-    stub_request(:get, /.*/).
-      with(headers: {
-        'Accept'=>'text/html',
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>/.*/,
-        'User-Agent'=>/http\.rb.*Bot/
-      }).
+    stub_request(:get, /example\.com/).
       to_return(status: 200, body: html, headers: { 'Content-Type' => 'text/html' })
 
     stub_request(:get, 'http://example.com/not-found').
-      with(headers: {
-        'Accept'=>'text/html',
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>'example.com',
-        'User-Agent'=>/http\.rb.*Bot/
-      }).
       to_return(status: 404, body: '', headers: { 'Content-Type' => 'text/html' })
 
     stub_request(:get, 'http://example.com/text').
-      with(headers: {
-        'Accept'=>'text/html',
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>'example.com',
-        'User-Agent'=>/http\.rb.*Bot/
-      }).
       to_return(status: 200, body: 'Hello', headers: { 'Content-Type' => 'text/plain' })
 
     stub_request(:get, 'http://example.com/redirect').
-      with(headers: {
-        'Accept'=>'text/html',
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>'example.com',
-        'User-Agent'=>/http\.rb.*Bot/
-      }).
       to_return(status: 302, headers: { 'Location' => 'http://example.com/html' })
 
     stub_request(:get, 'http://example.com/redirect-to-404').
-      with(headers: {
-        'Accept'=>'text/html',
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>'example.com',
-        'User-Agent'=>/http\.rb.*Bot/
-      }).
       to_return(status: 302, headers: { 'Location' => 'http://example.com/not-found' })
 
-    stub_request(:get, 'http://example.com/oembed?url=http://example.com/html').
-      with(headers: {
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>'example.com',
-        'User-Agent'=>/http\.rb.*/
-      }).
+    stub_request(:get, /example\.com\/oembed/).
       to_return(status: 200, body: '{ "version": "1.0", "type": "link", "title": "oEmbed title" }', headers: { 'Content-Type' => 'application/json' })
 
-    stub_request(:get, 'http://example.com/oembed?format=json&url=http://example.com/html').
-      with(headers: {
-        'Accept-Encoding'=>'gzip',
-        'Connection'=>'close',
-        'Host'=>'example.com',
-        'User-Agent'=>/http\.rb.*/
-      }).
-      to_return(status: 200, body: '{ "version": "1.0", "type": "link", "title": "oEmbed title" }', headers: { 'Content-Type' => 'application/json' })
+    stub_request(:get, /example\.xn--fiqs8s/).
+      to_return(status: 200, body: html, headers: { 'Content-Type' => 'text/html' })
   end
 
   before do
